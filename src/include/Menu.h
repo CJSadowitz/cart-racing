@@ -8,20 +8,22 @@
 class Menu
 {
 public:
+
+    Menu();
     // generate all information related to the main_menu
-    void generate(float* vertices);
+    void generate(float* vertices, size_t size);
 
-    unsigned int get_VAO();
-    unsigned int get_VBO();
+    void bind();
+    void unbind();
 
-    std::string get_texture();
+    GLuint get_VAO();
+    GLuint get_VBO();
 
 private:
     float* vertices;
-    std::string texture;
     
-    unsigned int VAO;
-    unsigned int VBO;
+    GLuint VAO;
+    GLuint VBO;
 };
 
 #endif

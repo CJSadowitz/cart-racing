@@ -2,6 +2,7 @@
 #define STATE_MACHINE_H
 
 #include <string>
+#include "Menu.h"
 
 class State_Machine
 {
@@ -22,6 +23,10 @@ private:
     bool first_call;
     std::string state;
 
+    unsigned int VAO;
+    unsigned int VBO;
+
+    Menu menu_obj;
 };
 
 #endif

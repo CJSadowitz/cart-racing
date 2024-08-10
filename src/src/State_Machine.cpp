@@ -40,13 +40,11 @@ std::string State_Machine::get_state()
 
 void State_Machine::main_menu_state()
 {
-    unsigned int VAO;
-    unsigned int VBO;
     // Create the menu
     // Would this be better to have fully generated and stored rather than dynamically creating it?
-    Menu main_menu;
     if (this->first_call != false)
     {
+        this->menu_obj = Menu();
         this->first_call = false;
 
         float vertices[] = {
@@ -54,11 +52,14 @@ void State_Machine::main_menu_state()
         -0.5f, -0.5f, 0.0f,
          0.0f,  0.5f, 0.0f
         };
-        main_menu.generate(vertices);
+        this->menu_obj.generate(vertices, sizeof(vertices));
     }
-    VAO = main_menu.get_VAO();
-    glBindVertexArray(VAO);
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    this->menu_obj.bind();
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    this->menu_obj.unbind();
 }
 
 void State_Machine::settings_menu_state()
