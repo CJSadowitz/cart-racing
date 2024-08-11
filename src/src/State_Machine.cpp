@@ -1,9 +1,10 @@
 #include "State_Machine.h"
-#include "Menu.h"
-#include "GUI_Util.h"
 #include <iostream>
 
+// instantiate and store each shader upon creation of this object. There must be a better way to do this
 State_Machine::State_Machine()
+    : menu_shader("src/shaders/vertex_shader.vs", "src/shaders/fragment_shader.fs"),
+      current_shader(&menu_shader)
 {
     this->state = "main_menu";
     this->first_call = true;
@@ -21,7 +22,7 @@ void State_Machine::run_state()
     }
     else if (this->state == "game_state")
     {
-
+        game_state();
     }
 }
 
@@ -40,25 +41,28 @@ std::string State_Machine::get_state()
 
 void State_Machine::main_menu_state()
 {
-    // Create the menu
-    // Would this be better to have fully generated and stored rather than dynamically creating it?
     if (this->first_call != false)
     {
-        this->menu_obj = Menu();
         this->first_call = false;
-
-        float vertices[] = {
-         0.5f, -0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-         0.0f,  0.5f, 0.0f
-        };
-        this->menu_obj.generate(vertices, sizeof(vertices));
+        this->menu_obj = Menu();
+        GUI_Util myUtil;
+        float b_left[] = {-0.875, -0.875};
+        float t_right[] = {-0.6, -0.6};
+        float color[] = {1.0, 0.0, 0.0};
+        rect_positions rect = myUtil.set_rect_positions(b_left, t_right, color);
+        
+        this->size = 144;
+        this->menu_obj.generate(rect.positions, this->size);
+        
+        delete rect.positions;
     }
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    this->current_shader->use();
+
     this->menu_obj.bind();
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
     this->menu_obj.unbind();
 }
 

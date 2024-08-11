@@ -3,6 +3,8 @@
 
 #include <string>
 #include "Menu.h"
+#include "Shader.h"
+#include "GUI_Util.h"
 
 class State_Machine
 {
@@ -23,10 +25,12 @@ private:
     bool first_call;
     std::string state;
 
-    unsigned int VAO;
-    unsigned int VBO;
+    int size;
 
     Menu menu_obj;
+
+    Shader menu_shader;
+    Shader* current_shader; 
 };
 
 #endif

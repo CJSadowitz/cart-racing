@@ -16,9 +16,6 @@ public:
     void bind();
     void unbind();
 
-    GLuint get_VAO();
-    GLuint get_VBO();
-
 private:
     float* vertices;
     

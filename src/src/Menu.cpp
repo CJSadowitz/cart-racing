@@ -10,19 +10,12 @@ void Menu::generate(float* vertices, size_t size)
     bind();
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // vertex position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-}
-
-GLuint Menu::get_VAO()
-{
-    return this->VAO;
-}
-
-GLuint Menu::get_VBO()
-{   
-    return this->VBO;
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    glEnableVertexAttribArray(1);
 }
 
 Menu::Menu()

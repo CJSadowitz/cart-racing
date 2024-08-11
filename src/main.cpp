@@ -18,19 +18,12 @@ const unsigned int SCR_HEIGHT = 600;
 int main()
 {
     // glfw: initialize and configure
-    // ------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-#ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-#endif
-
-    // glfw window creation
-    // --------------------
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Pain", NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -46,15 +39,12 @@ int main()
         return -1;
     }
 
-    Shader ourShader("src/shaders/vertex_shader.vs", "src/shaders/fragment_shader.fs");
-
     State_Machine my_machine;
 
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
-        // render the triangle
-        ourShader.use();
+        
         my_machine.run_state();
 
         glfwSwapBuffers(window);
@@ -75,4 +65,3 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
-

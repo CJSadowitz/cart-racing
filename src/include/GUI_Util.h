@@ -3,33 +3,31 @@
 
 #include <string>
 
-struct Sprite_Button
-{
-    float* position;
-    char* sprite_path;
+struct rect_positions {
+    float* positions;
+    float* color;
 };
 
-struct Rect_Button
-{
-    float* position;
+struct sprite_positions {
+    float* positions;
+    std::string texture;
 };
 
 class GUI_Util
 {
 public:
-    // Gather all information
-    void set_sprite_button_positions(Sprite_Button* buttons);
-    void set_rect_button_positions(Rect_Button* buttons);
+    // Square Buttons
+    rect_positions set_rect_positions(float* b_left, float* t_right, float* color);
+    sprite_positions set_sprite_positions(float* b_left, float* t_right, float* texture);
 
-    void set_background(float* positions, std::string array);
+    sprite_positions set_background(float* b_left, float* t_right, std::string texture);
 
-    // Send out all information
-    float* get_positions();
-    std::string* get_textures();
+    bool is_pressed(rect_positions button, float* mouse_pos);
+    bool is_pressed(sprite_positions button, float* mouse_pos);
+
 
 private:
-    float* positions;
-    std::string* textures;
+    
     
 };
 
