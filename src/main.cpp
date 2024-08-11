@@ -5,11 +5,13 @@
 #include "include/Menu.h"
 #include "include/GUI_Util.h"
 #include "include/State_Machine.h"
+#include "Input.h"
 
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void processInput(GLFWwindow *window);
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
@@ -40,14 +42,16 @@ int main()
     }
 
     State_Machine my_machine;
+    mouse_pos mouse;
+    glfwSetWindowUserPointer(window, &mouse);
+    glfwSetCursorPosCallback(window, cursor_position_callback);
 
     while (!glfwWindowShouldClose(window))
     {
         processInput(window);
         
-        my_machine.run_state();
+        my_machine.run_state(window, mouse);
 
-        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
@@ -64,4 +68,10 @@ void processInput(GLFWwindow *window)
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+}
+
+void cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
+    mouse_pos* cursorPos = static_cast<mouse_pos*>(glfwGetWindowUserPointer(window));
+    cursorPos->x_pos = xpos;
+    cursorPos->y_pos = ypos;
 }

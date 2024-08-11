@@ -2,6 +2,9 @@
 #define GUI_UTIL_H
 
 #include <string>
+#include "Input.h"
+#include <vector>
+#include <array>
 
 struct rect_positions {
     float* positions;
@@ -22,12 +25,11 @@ public:
 
     sprite_positions set_background(float* b_left, float* t_right, std::string texture);
 
-    bool is_pressed(rect_positions button, float* mouse_pos);
-    bool is_pressed(sprite_positions button, float* mouse_pos);
-
+    // returns the index of the button
+    int is_pressed(GLFWwindow* window, mouse_pos mouse);
 
 private:
-    
+    std::vector<std::array<float, 4>> button_pos;
     
 };
 
