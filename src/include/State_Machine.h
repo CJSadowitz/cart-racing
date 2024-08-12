@@ -23,6 +23,8 @@ public:
     void settings_menu_state(GLFWwindow* window, mouse_pos mouse);
     void game_state(GLFWwindow* window, mouse_pos mouse);
 
+    void render(GLFWwindow* window);
+
 private:
     bool first_call;
     std::string state;

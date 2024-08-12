@@ -26,7 +26,7 @@ public:
     sprite_positions set_background(float* b_left, float* t_right, std::string texture);
 
     // returns the index of the button
-    int is_pressed(GLFWwindow* window, mouse_pos mouse);
+    int is_hover(GLFWwindow* window, mouse_pos mouse);
 
 private:
     std::vector<std::array<float, 4>> button_pos;

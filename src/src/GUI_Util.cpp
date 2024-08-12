@@ -32,7 +32,7 @@ rect_positions GUI_Util::set_rect_positions(float* b_left, float* t_right, float
 
 // }
 
-int GUI_Util::is_pressed(GLFWwindow* window, mouse_pos mouse)
+int GUI_Util::is_hover(GLFWwindow* window, mouse_pos mouse)
 {
     Input mouse_fix;
     mouse_fix.update_mouse_pos(window, mouse);
