@@ -7,6 +7,9 @@
 #include "GUI_Util.h"
 #include "Input.h"
 #include <GLFW/glfw3.h>
+#include <iostream>
+#include <vector>
+#include "Menu_Builder.h" 
 
 class State_Machine
 {
@@ -23,13 +26,13 @@ public:
     void settings_menu_state(GLFWwindow* window, mouse_pos mouse);
     void game_state(GLFWwindow* window, mouse_pos mouse);
 
-    void render(GLFWwindow* window);
-
 private:
     bool first_call;
     std::string state;
 
-    int size;
+    int previous_state;
+
+    size_t size;
 
     Menu menu_obj;
     GUI_Util gui_obj;

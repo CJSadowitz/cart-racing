@@ -1,33 +1,31 @@
 #include "Menu.h"
 #include <iostream>
 
-/*
-Handle the packing of values into the buffer:
-Currently just position. No normals, textures, color etc
-*/
-void Menu::generate(float* vertices, size_t size)
+Menu::Menu(size_t layers)
 {
-    bind();
+    VAOs.resize(layers);
+    VBOs.resize(layers);
+    glGenVertexArrays(layers, VAOs.data());
+    glGenBuffers(layers, VBOs.data());
+}
+
+void Menu::generate(size_t index, float* vertices, size_t size)
+{
+    bind(index);
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 
     // vertex position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3* sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 }
 
-Menu::Menu()
+void Menu::bind(size_t index)
 {
-    glGenVertexArrays(1, &this->VAO);
-    glGenBuffers(1, &this->VBO);
-}
-
-void Menu::bind()
-{
-    glBindVertexArray(this->VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
+    glBindVertexArray(VAOs[index]);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[index]);
 }
 
 void Menu::unbind()

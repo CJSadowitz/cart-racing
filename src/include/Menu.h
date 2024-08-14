@@ -4,23 +4,20 @@
 #include <string>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <vector>
+
 
 class Menu
 {
 public:
-
-    Menu();
-    // generate all information related to the main_menu
-    void generate(float* vertices, size_t size);
-
-    void bind();
+    Menu(size_t layers);
+    void generate(size_t index, float* vertices, size_t size);
+    void bind(size_t index);
     void unbind();
 
 private:
-    float* vertices;
-    
-    GLuint VAO;
-    GLuint VBO;
+    std::vector<GLuint> VAOs;
+    std::vector<GLuint> VBOs;
 };
 
 #endif
