@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector>
 #include "Menu_Builder.h" 
+#include "Scene_Builder.h"
 
 class State_Machine
 {
@@ -32,7 +33,7 @@ private:
 
     int previous_state;
 
-    size_t size;
+    std::vector<size_t> size;
 
     Menu menu_obj;
     GUI_Util gui_obj;

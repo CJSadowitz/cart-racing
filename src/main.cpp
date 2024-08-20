@@ -1,25 +1,18 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-#include "include/Shader.h"
-#include "include/Menu.h"
-#include "include/GUI_Util.h"
 #include "include/State_Machine.h"
 #include "Input.h"
-
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow *window);
 void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
-// settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 int main()
 {
-    // glfw: initialize and configure
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -48,8 +41,6 @@ int main()
 
     while (!glfwWindowShouldClose(window))
     {
-        processInput(window);
-        
         my_machine.run_state(window, mouse);
 
         glfwPollEvents();
@@ -57,12 +48,6 @@ int main()
 
     glfwTerminate();
     return 0;
-}
-
-void processInput(GLFWwindow *window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
 }
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)

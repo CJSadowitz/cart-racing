@@ -7,7 +7,7 @@
 class Scene_Builder
 {
 public:
-    void splash_screen(Menu& menu, size_t& size);
-}
+    static void splash_screen(Menu& menu, std::vector<size_t>& size);
+};
 
 #endif
