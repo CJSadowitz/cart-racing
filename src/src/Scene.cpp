@@ -9,6 +9,7 @@ Scene::Scene(std::string file_path)
         {
             // create a model for each model directory in the scene folder
             auto file_path = entry.path();
+            std::cout << file_path.string() << std::endl;
             this->models.push_back(Model(file_path.string()));
         }
     }

@@ -27,7 +27,7 @@ private:
     void bind(int index);
     void unbind();
 
-    Shader model_shader;
+    std::vector<Shader> model_shaders;
 
     std::vector<Mesh> meshes;
     std::vector<GLuint> VAOs;
