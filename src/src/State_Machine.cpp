@@ -4,6 +4,7 @@
 // instantiate and store each shader upon creation of this object. There must be a better way to do this
 State_Machine::State_Machine()
     :   menu_obj(1),
+        scene_obj("/assets/scenes/title_scene/models"),
         menu_shader("src/shaders/vertex_shader.vs", "src/shaders/fragment_shader.fs"),
         current_shader(&menu_shader)
 {
@@ -47,6 +48,7 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
         this->first_call = false;
         this->menu_obj = Menu(2);
         this->gui_obj = GUI_Util();
+        this->scene_obj = Scene("/assets/scenes/title_scene/models");
         this->previous_state = GLFW_RELEASE;
         // GUI generation
 
@@ -58,6 +60,10 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
     // Renderer
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
+    // render scenes here :D
+
+
     this->current_shader->use();
     this->menu_obj.bind(0);
     // color rect render: requires / 24 because each button is 144 bytes
@@ -99,6 +105,7 @@ void State_Machine::settings_menu_state(GLFWwindow* window, mouse_pos mouse)
     // Renderer
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
+
     this->current_shader->use();
     this->menu_obj.bind(0);
     // color rect render: requires / 24 because each button is 144 bytes

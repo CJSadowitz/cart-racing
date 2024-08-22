@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
 
 Mesh::Mesh(std::string file_path)
 {
@@ -86,4 +87,24 @@ Mesh::Mesh(std::string file_path)
 void Mesh::set_texture(std::string file_path)
 {
     this->texture_path == file_path;
+}
+
+int Mesh::get_indices_size()
+{
+    return this->indices.size();
+}
+
+int Mesh::get_vertices_size()
+{
+    return this->vertices.size();
+}
+
+std::vector<float> Mesh::get_vertices_vector()
+{
+    return this->vertices;
+}
+
+std::vector<int> Mesh::get_indices_vector()
+{
+    return this->indices;
 }

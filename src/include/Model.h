@@ -4,27 +4,37 @@
 #include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <string>
+#include <filesystem>   
 #include "Mesh.h"
+#include "Shader.h"
 
 class Model
 {
-    void bind(int index);
-    void unbind();
+public:
+    Model(std::string mesh_path);
+
+    void render();
 
     void add_mesh(Mesh mesh);
+    void generate_buffers();
 
     void rotate_mesh(int index);
     void translate_mesh(int index);
     void scale_mesh(int index);
 
 private:
+    void bind(int index);
+    void unbind();
 
-    void generate_buffers(Mesh mesh);
+    Shader model_shader;
 
     std::vector<Mesh> meshes;
     std::vector<GLuint> VAOs;
     std::vector<GLuint> VBOs;
-    std::vecotr<GLuint> EBOs;
+    std::vector<GLuint> EBOs;
+
+    size_t file_count;
 };
 
 #endif

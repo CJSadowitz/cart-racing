@@ -10,7 +10,7 @@
 #include <iostream>
 #include <vector>
 #include "Menu_Builder.h" 
-#include "Scene_Builder.h"
+#include "Scene.h"
 
 class State_Machine
 {
@@ -38,6 +38,7 @@ private:
     Menu menu_obj;
     GUI_Util gui_obj;
 
+    Scene scene_obj;
     Shader menu_shader;
     Shader* current_shader; 
 };
