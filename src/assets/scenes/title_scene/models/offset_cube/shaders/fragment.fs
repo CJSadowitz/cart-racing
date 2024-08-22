@@ -7,5 +7,5 @@ in vec2 tex; // I have NO TEXTURES :D
   
 void main()
 {
-    FragColor = vec4(pos, 1.0);
+    FragColor = vec4(vec3(0.0, 1.0, 0.0), 1.0);
 }

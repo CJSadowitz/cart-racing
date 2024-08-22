@@ -4,18 +4,18 @@
 Model::Model(std::string mesh_path)
 {
     int file_count = 0;
-    for (const auto& entry: std::filesystem::directory_iterator(mesh_path))
+    for (const auto& entry: std::filesystem::directory_iterator(mesh_path + "/meshes"))
     {
         if (std::filesystem::is_regular_file(entry.status()))
         {
-            file_count++; // count all obj files and assign VBO/VAO/EBO size
-            // Generate mesh objects and add to mesh vector
+            file_count++;
             auto file_path = entry.path();
             this->meshes.push_back(Mesh(file_path.string()));
         }
     }
     this->VAOs.resize(file_count);
     this->VBOs.resize(file_count);
+    this->EBOs.resize(file_count);
     glGenVertexArrays(file_count, this->VAOs.data());
     glGenBuffers(file_count, this->VBOs.data());
 
