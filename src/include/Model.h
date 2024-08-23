@@ -16,7 +16,6 @@ public:
 
     void render();
 
-    void add_mesh(Mesh mesh);
     void generate_buffers();
 
     void rotate_mesh(int index);

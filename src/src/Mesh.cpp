@@ -72,15 +72,29 @@ Mesh::Mesh(std::string file_path)
         {
             this->indices.push_back(indices[i]);
             this->vertices.push_back(vertices[indices[i]]);
+            this->vertices.push_back(vertices[indices[i] + 1]);
+            this->vertices.push_back(vertices[indices[i] + 2]);
         }
         else if (i % 3 == 1)
         {
             this->vertices.push_back(normals[indices[i]]);
+            this->vertices.push_back(normals[indices[i] + 1]);
+            this->vertices.push_back(normals[indices[i] + 2]);
         }
         else if (i % 3 == 2)
         {
             this->vertices.push_back(textures[indices[i]]);
+            this->vertices.push_back(textures[indices[i] + 1]);
         }
+    }
+
+    for (int i = 0; i < this->vertices.size(); i++)
+    {
+        if (i != 0 && i % 8 == 0)
+        {
+            std::cout << std::endl;
+        }
+        std::cout << this->vertices[i] << ' ';
     }
 }
 

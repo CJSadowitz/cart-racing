@@ -38,11 +38,6 @@ void Model::unbind()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Model::add_mesh(Mesh mesh)
-{
-    this->meshes.push_back(mesh);
-}
-
 void Model::generate_buffers()
 {
     for (int i = 0; i < this->file_count; i++)
