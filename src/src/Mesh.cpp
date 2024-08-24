@@ -21,6 +21,7 @@ Mesh::Mesh(std::string file_path)
         return;
     }
 
+
     while (getline(file, line))
     {
         std::stringstream ss(line);
@@ -82,16 +83,7 @@ Mesh::Mesh(std::string file_path)
         this->vertices.push_back(textures[indices[i * 2 + 2] * 2 + 1]);
     }
 
-    // for (int i = 0; i < quad_indices.size(); i += 4)
-    // {
-    //     this->indices.push_back(quad_indices[i + 0]);
-    //     this->indices.push_back(quad_indices[i + 1]);
-    //     this->indices.push_back(quad_indices[i + 2]);
-
-    //     this->indices.push_back(quad_indices[i + 0]);
-    //     this->indices.push_back(quad_indices[i + 2]);
-    //     this->indices.push_back(quad_indices[i + 3]);
-    // }
+    
     for (int i = 0; i < quad_indices.size(); i += 4)
     {
         this->indices.push_back(i + 0);

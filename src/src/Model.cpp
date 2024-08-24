@@ -21,7 +21,6 @@ Model::Model(std::string mesh_path)
     glGenVertexArrays(file_count, this->VAOs.data());
     glGenBuffers(file_count, this->VBOs.data());
     glGenBuffers(file_count, this->EBOs.data());
-
     this->model_shaders.push_back(Shader((mesh_path + "/shaders" + "/vertex.vs").c_str(), (mesh_path + "/shaders" + "/fragment.fs").c_str()));
 
     this->file_count = file_count;
@@ -70,7 +69,6 @@ void Model::render()
     const unsigned int SCR_HEIGHT = 600;    
     
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
-
 
     for (int i = 0; i < this->meshes.size(); i++)
     {
