@@ -65,36 +65,42 @@ Mesh::Mesh(std::string file_path)
             }
         }
     }
+    std::vector<int> quad_indices;
 
-    for (int i = 0; i < indices.size(); i++)
+    for (int i = 0; i < indices.size() / 3; i++)
     {
-        if (i % 3 == 0)
-        {
-            this->indices.push_back(indices[i]);
-            this->vertices.push_back(vertices[indices[i]]);
-            this->vertices.push_back(vertices[indices[i] + 1]);
-            this->vertices.push_back(vertices[indices[i] + 2]);
-        }
-        else if (i % 3 == 1)
-        {
-            this->vertices.push_back(normals[indices[i]]);
-            this->vertices.push_back(normals[indices[i] + 1]);
-            this->vertices.push_back(normals[indices[i] + 2]);
-        }
-        else if (i % 3 == 2)
-        {
-            this->vertices.push_back(textures[indices[i]]);
-            this->vertices.push_back(textures[indices[i] + 1]);
-        }
+        quad_indices.push_back(indices[i * 3]);
+        this->vertices.push_back(vertices[indices[i * 3] * 3]);
+        this->vertices.push_back(vertices[indices[i * 3] * 3 + 1]);
+        this->vertices.push_back(vertices[indices[i * 3] * 3 + 2]);
+    
+        this->vertices.push_back(normals[indices[i * 3 + 1] * 3]);
+        this->vertices.push_back(normals[indices[i * 3 + 1] * 3 + 1]);
+        this->vertices.push_back(normals[indices[i * 3 + 1] * 3 + 2]);
+        
+        this->vertices.push_back(textures[indices[i * 2 + 2] * 2]);
+        this->vertices.push_back(textures[indices[i * 2 + 2] * 2 + 1]);
     }
 
-    for (int i = 0; i < this->vertices.size(); i++)
+    // for (int i = 0; i < quad_indices.size(); i += 4)
+    // {
+    //     this->indices.push_back(quad_indices[i + 0]);
+    //     this->indices.push_back(quad_indices[i + 1]);
+    //     this->indices.push_back(quad_indices[i + 2]);
+
+    //     this->indices.push_back(quad_indices[i + 0]);
+    //     this->indices.push_back(quad_indices[i + 2]);
+    //     this->indices.push_back(quad_indices[i + 3]);
+    // }
+    for (int i = 0; i < quad_indices.size(); i += 4)
     {
-        if (i != 0 && i % 8 == 0)
-        {
-            std::cout << std::endl;
-        }
-        std::cout << this->vertices[i] << ' ';
+        this->indices.push_back(i + 0);
+        this->indices.push_back(i + 1);
+        this->indices.push_back(i + 2);
+
+        this->indices.push_back(i + 0);
+        this->indices.push_back(i + 2);
+        this->indices.push_back(i + 3);
     }
 }
 

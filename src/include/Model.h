@@ -26,6 +26,8 @@ private:
     void bind(int index);
     void unbind();
 
+    float angle;
+
     std::vector<Shader> model_shaders;
 
     std::vector<Mesh> meshes;
