@@ -48,7 +48,7 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
         this->gui_obj = GUI_Util();
         this->previous_state = GLFW_RELEASE;
         this->scene_obj.push_back(Scene("assets/scenes/title_scene/models"));
-        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 0.0f, 10.0f)));
+        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 2.0f, 10.0f)));
         // GUI generation
         Menu_Builder::main_menu_builder(this->menu_obj, this->gui_obj, this->size);
     }

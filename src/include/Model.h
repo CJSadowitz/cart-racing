@@ -19,15 +19,9 @@ public:
 
     void generate_buffers();
 
-    void rotate_mesh(int index);
-    void translate_mesh(int index);
-    void scale_mesh(int index);
-
 private:
     void bind(int index);
     void unbind();
-
-    float angle;
 
     std::vector<Shader> model_shaders;
     std::vector<std::string> texture_paths;

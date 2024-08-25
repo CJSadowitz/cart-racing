@@ -5,7 +5,6 @@
 // ex: assets/scenes/title_scene/models/model_name
 Model::Model(std::string mesh_path)
 {
-    this->angle = 0;
     int file_count = 0;
     int texture_count = 0;
     for (const auto& entry: std::filesystem::directory_iterator(mesh_path + "/meshes"))
@@ -47,7 +46,7 @@ Model::Model(std::string mesh_path)
     glGenVertexArrays(file_count, this->VAOs.data());
     glGenBuffers(file_count, this->VBOs.data());
     glGenBuffers(file_count, this->EBOs.data());
-    this->model_shaders.push_back(Shader((mesh_path + "/shaders" + "/vertex.vs").c_str(), (mesh_path + "/shaders" + "/fragment.fs").c_str()));
+    this->model_shaders.push_back(Shader((mesh_path + "/shaders/vertex.vs").c_str(), (mesh_path + "/shaders/fragment.fs").c_str()));
 
     this->file_count = file_count;
 }
@@ -137,12 +136,6 @@ void Model::render(Camera camera)
         this->model_shaders[i].use();
         glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         this->model_shaders[i].setMat4("projection", projection);
-
-        this->angle += 0.1f; // Adjust the speed of rotation as needed
-        if (this->angle >= 360.0f) this->angle = 0.0f;
-
-        // Update the camera position
-        camera.updateCameraPosition(30, this->angle, glm::vec3(0.0f, 5.0f, 0.0f));
 
         // camera/view transformation
         glm::mat4 view = camera.GetViewMatrix();

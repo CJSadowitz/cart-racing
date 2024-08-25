@@ -25,3 +25,8 @@ void Scene::render(Camera camera)
         this->models[i].render(camera);
     }
 }
+
+std::vector<Model> Scene::get_models() // collisions ;D
+{
+    return this->models;
+}
