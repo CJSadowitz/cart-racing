@@ -29,11 +29,13 @@ private:
     float angle;
 
     std::vector<Shader> model_shaders;
+    std::vector<std::string> texture_paths;
 
     std::vector<Mesh> meshes;
     std::vector<GLuint> VAOs;
     std::vector<GLuint> VBOs;
     std::vector<GLuint> EBOs;
+    std::vector<GLuint> textures;
 
     size_t file_count;
 };

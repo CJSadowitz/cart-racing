@@ -1,11 +1,13 @@
 #include "Model.h"
 #include "Camera.h"
+#include <stb_image.h>
 
 // ex: assets/scenes/title_scene/models/model_name
 Model::Model(std::string mesh_path)
 {
     this->angle = 0;
     int file_count = 0;
+    int texture_count = 0;
     for (const auto& entry: std::filesystem::directory_iterator(mesh_path + "/meshes"))
     {
         if (std::filesystem::is_regular_file(entry.status()))
@@ -14,6 +16,30 @@ Model::Model(std::string mesh_path)
             auto file_path = entry.path();
             this->meshes.push_back(Mesh(file_path.string()));
         }
+    }
+    try
+    {
+        bool textures_found = false;
+        for (const auto& entry: std::filesystem::directory_iterator(mesh_path + "/textures"))
+        {
+            if (std::filesystem::is_regular_file(entry.status()))
+            {
+                textures_found = true;
+                texture_count++;
+                auto file_path = entry.path();
+                this->texture_paths.resize(texture_count);
+                this->texture_paths.push_back(file_path.string());
+            }
+        }
+        if (!textures_found)
+        {
+            this->texture_paths.push_back("");
+            throw std::runtime_error("No textures found");
+        }
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Model Error: " << e.what() << std::endl;
     }
     this->VAOs.resize(file_count);
     this->VBOs.resize(file_count);
@@ -59,6 +85,42 @@ void Model::generate_buffers()
         // textures
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(2);
+
+        // texture generation:
+        unsigned int texture1; // Assume one texture per model:
+        glGenTextures(1, &texture1);
+        glBindTexture(GL_TEXTURE_2D, texture1); 
+        // set the texture wrapping parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);	// set texture wrapping to GL_REPEAT (default wrapping method)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        // set texture filtering parameters
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        // load image, create texture and generate mipmaps
+        int width, height, nrChannels;
+        unsigned char* data;
+        try
+        {
+            data = stbi_load(std::filesystem::path(this->texture_paths[i]).c_str(), &width, &height, &nrChannels, 0);
+            if (!data)
+            {
+                throw std::runtime_error("Failed to load texture");
+            }
+        }
+        catch (const std::exception& e)
+        {
+            std::cerr << "Model Error: " << e.what() << std::endl;
+            data = stbi_load(std::filesystem::path("assets/util/textures/missing_texture.png").c_str(), &width, &height, &nrChannels, 0);
+            if (!data)
+            {
+                std::cout << "Model Error: Failed to open missing_texture.png" << std::endl;
+            }
+        }
+        GLenum format = (nrChannels == 4) ? GL_RGBA : GL_RGB;
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        stbi_image_free(data);
+        this->textures.push_back(texture1);
     }
 }
 
@@ -69,6 +131,9 @@ void Model::render()
     const unsigned int SCR_HEIGHT = 600;    
     
     Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, this->textures[0]); // still works because there is something here just with no info
 
     for (int i = 0; i < this->meshes.size(); i++)
     {

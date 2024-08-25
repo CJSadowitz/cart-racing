@@ -15,6 +15,9 @@ Mesh::Mesh(std::string file_path)
     std::vector<float> textures;
     std::vector<int> indices;
 
+    std::vector<int> normalIndices;
+    std::vector<int> textureIndices;
+
     if (!file.is_open())
     {
         std::cout << "MESH::Could_Not_Open_File" << std::endl;
@@ -58,32 +61,32 @@ Mesh::Mesh(std::string file_path)
             {
                 std::replace(segment.begin(), segment.end(), '/', ' ');
                 std::stringstream segment_stream(segment);
-                int value;
-                while (segment_stream >> value)
-                {
-                    indices.push_back(value - 1);
-                }
+                int vertexIndex, textureIndex, normalIndex;
+                segment_stream >> vertexIndex >> textureIndex >> normalIndex;
+
+                indices.push_back(vertexIndex - 1);
+                textureIndices.push_back(textureIndex - 1);
+                normalIndices.push_back(normalIndex - 1);
             }
         }
     }
     std::vector<int> quad_indices;
 
-    for (int i = 0; i < indices.size() / 3; i++)
+    for (int i = 0; i < indices.size(); i++)
     {
-        quad_indices.push_back(indices[i * 3]);
-        this->vertices.push_back(vertices[indices[i * 3] * 3]);
-        this->vertices.push_back(vertices[indices[i * 3] * 3 + 1]);
-        this->vertices.push_back(vertices[indices[i * 3] * 3 + 2]);
-    
-        this->vertices.push_back(normals[indices[i * 3 + 1] * 3]);
-        this->vertices.push_back(normals[indices[i * 3 + 1] * 3 + 1]);
-        this->vertices.push_back(normals[indices[i * 3 + 1] * 3 + 2]);
-        
-        this->vertices.push_back(textures[indices[i * 2 + 2] * 2]);
-        this->vertices.push_back(textures[indices[i * 2 + 2] * 2 + 1]);
+        quad_indices.push_back(indices[i]);
+        this->vertices.push_back(vertices[indices[i] * 3]);
+        this->vertices.push_back(vertices[indices[i] * 3 + 1]);
+        this->vertices.push_back(vertices[indices[i] * 3 + 2]);
+
+        this->vertices.push_back(normals[normalIndices[i] * 3]);
+        this->vertices.push_back(normals[normalIndices[i] * 3 + 1]);
+        this->vertices.push_back(normals[normalIndices[i] * 3 + 2]);
+
+        this->vertices.push_back(textures[textureIndices[i] * 2]);
+        this->vertices.push_back(textures[textureIndices[i] * 2 + 1]);
     }
 
-    
     for (int i = 0; i < quad_indices.size(); i += 4)
     {
         this->indices.push_back(i + 0);
@@ -94,6 +97,16 @@ Mesh::Mesh(std::string file_path)
         this->indices.push_back(i + 2);
         this->indices.push_back(i + 3);
     }
+    // std::cout << "\nVertices: " << std::endl;
+    // for (int i = 0; i < this->vertices.size(); i++)
+    // {
+    //     if (i != 0 && i % 8 == 0)
+    //     {
+    //         std::cout << std::endl;
+    //     }
+    //     std::cout << this->vertices[i] << ' ';
+    // }
+    // std::cout << std::endl;
 }
 
 void Mesh::set_texture(std::string file_path)
