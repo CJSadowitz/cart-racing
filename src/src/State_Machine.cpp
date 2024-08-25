@@ -4,7 +4,6 @@
 // instantiate and store each shader upon creation of this object. There must be a better way to do this
 State_Machine::State_Machine()
     :   menu_obj(1),
-        scene_obj("assets/scenes/title_scene/models"),
         menu_shader("src/shaders/vertex_shader.vs", "src/shaders/fragment_shader.fs"),
         current_shader(&menu_shader)
 {
@@ -46,14 +45,12 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
     if (this->first_call != false)
     {
         this->first_call = false;
-        this->menu_obj = Menu(2);
         this->gui_obj = GUI_Util();
         this->previous_state = GLFW_RELEASE;
+        this->scene_obj.push_back(Scene("assets/scenes/title_scene/models"));
+        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 0.0f, 10.0f)));
         // GUI generation
-
-        // Fix size storing needs array
         Menu_Builder::main_menu_builder(this->menu_obj, this->gui_obj, this->size);
-        // Scene_Builder::splash_screen(this->menu_obj, this->size);
     }
     
     // Renderer
@@ -61,12 +58,11 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // render scenes here :D
-    this->scene_obj.render();
+    this->scene_obj[0].render(this->camera_obj[0]);
 
     this->current_shader->use();
     this->menu_obj.bind(0);
     // color rect render: requires / 24 because each button is 144 bytes
-    // : / 24 will need to change based on what layer is being drawn
     glDrawArrays(GL_TRIANGLES, 0, this->size[0] / 24);
     this->menu_obj.unbind();
     glfwSwapBuffers(window);
@@ -95,7 +91,6 @@ void State_Machine::settings_menu_state(GLFWwindow* window, mouse_pos mouse)
     if (this->first_call != false)
     {
         this->first_call = false;
-        this->menu_obj = Menu(1);
         this->gui_obj = GUI_Util();
         this->previous_state = GLFW_RELEASE;
         // GUI generation
@@ -107,8 +102,7 @@ void State_Machine::settings_menu_state(GLFWwindow* window, mouse_pos mouse)
 
     this->current_shader->use();
     this->menu_obj.bind(0);
-    // color rect render: requires / 24 because each button is 144 bytes
-    // number of triangles to draw must be updated to handle drawing multiple layers
+    // color rect render: requires / 24 because each button is 144 bytes    
     glDrawArrays(GL_TRIANGLES, 0, this->size[0] / 24);
     this->menu_obj.unbind();
     glfwSwapBuffers(window);

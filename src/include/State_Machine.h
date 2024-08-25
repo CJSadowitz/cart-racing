@@ -30,15 +30,16 @@ public:
 private:
     bool first_call;
     std::string state;
-
     int previous_state;
+
+    std::vector<Scene> scene_obj;
+    std::vector<Camera> camera_obj;
 
     std::vector<size_t> size;
 
     Menu menu_obj;
     GUI_Util gui_obj;
 
-    Scene scene_obj;
     Shader menu_shader;
     Shader* current_shader; 
 };

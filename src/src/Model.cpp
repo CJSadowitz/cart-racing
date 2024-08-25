@@ -95,7 +95,7 @@ void Model::generate_buffers()
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         // set texture filtering parameters
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         // load image, create texture and generate mipmaps
         int width, height, nrChannels;
         unsigned char* data;
@@ -124,13 +124,10 @@ void Model::generate_buffers()
     }
 }
 
-void Model::render()
+void Model::render(Camera camera)
 {
-
     const unsigned int SCR_WIDTH = 800;
     const unsigned int SCR_HEIGHT = 600;    
-    
-    Camera camera(glm::vec3(0.0f, 0.0f, 10.0f));
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->textures[0]); // still works because there is something here just with no info

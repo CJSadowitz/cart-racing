@@ -8,13 +8,14 @@
 #include <filesystem>   
 #include "Mesh.h"
 #include "Shader.h"
+#include "Camera.h"
 
 class Model
 {
 public:
     Model(std::string mesh_path);
 
-    void render();
+    void render(Camera camera);
 
     void generate_buffers();
 

@@ -18,10 +18,10 @@ Scene::Scene(std::string file_path)
     }
 }
 
-void Scene::render()
+void Scene::render(Camera camera)
 {
     for (int i = 0; i < this->models.size(); i++)
     {
-        this->models[i].render();
+        this->models[i].render(camera);
     }
 }
