@@ -3,9 +3,9 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include "Shader.h"
 #include "Button.h"
 #include "Display.h"
-#include "Shader.h"
 #include <string>
 #include <vector>
 
@@ -13,9 +13,11 @@ class Gui
 {
 public:
     Gui(std::string file_path);
-    void generate_buttons(int index);
-    void generate_displays(int index);
-    void bind(int index);
+    void generate_buttons();
+    void generate_displays();
+
+    void display_bind(int index);
+    void button_bind(int index);
     void unbind();
 
     void render();
@@ -27,9 +29,14 @@ private:
     std::vector<Shader> button_shaders;
     std::vector<Shader> display_shaders;
 
-    std::vector<GLuint> VAOs;
-    std::vector<GLuint> VBOs;
-    std::vector<GLuint> EBOs;
+    std::vector<GLuint> B_VAOs;
+    std::vector<GLuint> B_VBOs;
+    std::vector<GLuint> B_EBOs;
+
+    std::vector<GLuint> D_VAOs;
+    std::vector<GLuint> D_VBOs;
+    std::vector<GLuint> D_EBOs;
+
     std::vector<GLuint> textures;
 
     std::vector<Button> buttons;

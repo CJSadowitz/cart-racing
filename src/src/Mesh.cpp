@@ -20,7 +20,7 @@ Mesh::Mesh(std::string file_path)
 
     if (!file.is_open())
     {
-        std::cout << "MESH::Could_Not_Open_File" << std::endl;
+        std::cout << "Mesh: Could_Not_Open_File" << std::endl;
         return;
     }
 

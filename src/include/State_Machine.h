@@ -11,6 +11,7 @@
 #include <vector>
 #include "Menu_Builder.h" 
 #include "Scene.h"
+#include "GUI.h"
 
 class State_Machine
 {
@@ -34,6 +35,7 @@ private:
 
     std::vector<Scene> scene_obj;
     std::vector<Camera> camera_obj;
+    std::vector<Gui> my_gui_obj;
 
     std::vector<size_t> size;
 

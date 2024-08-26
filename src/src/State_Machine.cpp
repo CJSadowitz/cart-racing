@@ -13,7 +13,7 @@ State_Machine::State_Machine()
 
 void State_Machine::run_state(GLFWwindow* window, mouse_pos mouse)
 {
-    if (this->state == "main_menu")
+    if (this->state == "main_menu") //consider enum
     {
         main_menu_state(window, mouse);
     }
@@ -39,16 +39,16 @@ std::string State_Machine::get_state()
 }
 
 // All game states that get ran on loop
-
 void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
 {
-    if (this->first_call != false)
+    if (this->first_call != false) // fix initialization (abstract outside of funny loop)
     {
         this->first_call = false;
         this->gui_obj = GUI_Util();
         this->previous_state = GLFW_RELEASE;
         this->scene_obj.push_back(Scene("assets/scenes/title_scene/models"));
         this->camera_obj.push_back(Camera(glm::vec3(0.0f, 2.0f, 10.0f)));
+        this->my_gui_obj.push_back(Gui("assets/hud/title_screen"));
         // GUI generation
         Menu_Builder::main_menu_builder(this->menu_obj, this->gui_obj, this->size);
     }
@@ -58,7 +58,8 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // render scenes here :D
-    this->scene_obj[0].render(this->camera_obj[0]);
+    // this->scene_obj[0].render(this->camera_obj[0]);
+    this->my_gui_obj[0].render();
 
     this->current_shader->use();
     this->menu_obj.bind(0);
