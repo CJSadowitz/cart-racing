@@ -129,9 +129,12 @@ void Button::generate_buffer(std::string file_path)
     // std::cout << std::endl;
 }
 
-void Button::place_button_rect_positions(glm::mat4 transform)
+void Button::set_button_rect_positions(glm::mat4 transform)
 {
-
+    // verterices array:
+    // v0.x v0.y v0.z t0.u t0.v v1.x v1.y v1.z t1.u t2.v
+    // v2.x v2.y v2.z t2.u t2.v v3.x v3.y v3.z t3.u t3.v
+    // Find two corner vertices (bottom left, bottom right) 
 }
 
 bool Button::clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state)
