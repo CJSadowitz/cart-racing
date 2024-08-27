@@ -1,15 +1,24 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Input.h"
 #include <string>
 #include <vector>
+
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Input.h"
 
 class Button
 {
 public:
     Button(std::string file_path);
-    std::string clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state);
+    bool clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state);
+    void place_button_rect_positions(glm::mat4 transform);
 
     void generate_buffer(std::string file_path);
 
@@ -20,7 +29,11 @@ public:
     float get_vertices_size();
 
 private:
-    std::string texture_path;
+    std::string name;
+
+    std::vector<float> b_left;
+    std::vector<float> t_right;
+
     std::vector<float> vertices;
     std::vector<int> indices;
 };

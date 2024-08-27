@@ -33,6 +33,8 @@ private:
     std::string state;
     int previous_state;
 
+    int angle = 0;
+
     std::vector<Scene> scene_obj;
     std::vector<Camera> camera_obj;
     std::vector<Gui> my_gui_obj;

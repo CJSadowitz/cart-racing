@@ -101,16 +101,16 @@ void Button::generate_buffer(std::string file_path)
         this->vertices.push_back(textures[textureIndices[i] * 2 + 1]);
     }
 
-    // for (int i = 0; i < quad_indices.size(); i += 4)
-    // {
-    //     this->indices.push_back(i + 0);
-    //     this->indices.push_back(i + 1);
-    //     this->indices.push_back(i + 2);
+    for (int i = 0; i < quad_indices.size(); i += 4)
+    {
+        this->indices.push_back(i + 0);
+        this->indices.push_back(i + 1);
+        this->indices.push_back(i + 2);
 
-    //     this->indices.push_back(i + 0);
-    //     this->indices.push_back(i + 2);
-    //     this->indices.push_back(i + 3);
-    // }
+        this->indices.push_back(i + 0);
+        this->indices.push_back(i + 2);
+        this->indices.push_back(i + 3);
+    }
     // std::cout << "\nVertices: " << std::endl;
     // for (int i = 0; i < this->vertices.size(); i++)
     // {
@@ -129,6 +129,15 @@ void Button::generate_buffer(std::string file_path)
     // std::cout << std::endl;
 }
 
+void Button::place_button_rect_positions(glm::mat4 transform)
+{
+
+}
+
+bool Button::clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state)
+{
+    
+}
 
 int Button::get_indices_size()
 {

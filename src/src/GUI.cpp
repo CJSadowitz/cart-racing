@@ -113,15 +113,15 @@ void Gui::unbind()
 void Gui::render()
 {
     glm::mat4 transform = glm::mat4(1.0f);
-    transform = glm::rotate(transform, (float) glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-    transform = glm::scale(transform, glm::vec3(0.25, 0.25, 0.25));
+    transform = glm::rotate(transform, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    transform = glm::scale(transform, glm::vec3(0.125, 0.125, 0.125));
+    transform = glm::translate(transform, glm::vec3(0.0, -8.0, 0.0));
     
     for (int i = 0; i < this->buttons.size(); i++)
     {
         button_bind(i);
         this->button_shaders[i].use();
         this->button_shaders[i].setMat4("transform", transform);
-        
         glDrawElements(GL_TRIANGLES, this->buttons[i].get_indices_size(), GL_UNSIGNED_INT, 0);
         unbind();
     }

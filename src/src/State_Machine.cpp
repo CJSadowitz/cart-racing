@@ -58,7 +58,9 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // render scenes here :D
-    // this->scene_obj[0].render(this->camera_obj[0]);
+    this->camera_obj[0].updateCameraPosition(10.0f, this->angle, glm::vec3(0.0f, 0.5f, 0.0f));
+    this->scene_obj[0].render(this->camera_obj[0]);
+    this->angle += 1;
     this->my_gui_obj[0].render();
 
     this->current_shader->use();
