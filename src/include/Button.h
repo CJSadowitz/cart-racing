@@ -18,7 +18,7 @@ class Button
 public:
     Button(std::string file_path);
     bool clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state);
-    void set_button_rect_positions(glm::mat4 transform);
+    void set_button_rect_positions(glm::mat4& transform);
 
     void generate_buffer(std::string file_path);
 

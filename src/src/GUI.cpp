@@ -49,6 +49,18 @@ Gui::Gui(std::string file_path)
 
     generate_buttons();
     generate_displays();
+
+    glm::mat4 transform = glm::mat4(1.0f);
+    transform = glm::rotate(transform, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    transform = glm::scale(transform, glm::vec3(0.125, 0.125, 0.125));
+    // transform = glm::translate(transform, glm::vec3(0.0, -8.0, 0.0));
+    this->transform = transform;
+
+    for (int i = 0; i < this->buttons.size(); i++)
+    {
+        this->buttons[i].set_button_rect_positions(transform);
+    }
+
 }
 
 void Gui::generate_buttons()
@@ -67,6 +79,8 @@ void Gui::generate_buttons()
         // textures
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
         glEnableVertexAttribArray(2);
+
+        // set box collider positions for menu
     }
 }
 
@@ -111,17 +125,12 @@ void Gui::unbind()
 }
 
 void Gui::render()
-{
-    glm::mat4 transform = glm::mat4(1.0f);
-    transform = glm::rotate(transform, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    transform = glm::scale(transform, glm::vec3(0.125, 0.125, 0.125));
-    transform = glm::translate(transform, glm::vec3(0.0, -8.0, 0.0));
-    
+{   
     for (int i = 0; i < this->buttons.size(); i++)
     {
         button_bind(i);
         this->button_shaders[i].use();
-        this->button_shaders[i].setMat4("transform", transform);
+        this->button_shaders[i].setMat4("transform", this->transform);
         glDrawElements(GL_TRIANGLES, this->buttons[i].get_indices_size(), GL_UNSIGNED_INT, 0);
         unbind();
     }
@@ -129,7 +138,7 @@ void Gui::render()
     {
         display_bind(i);
         this->display_shaders[i].use();
-        this->display_shaders[i].setMat4("transform", transform);
+        this->display_shaders[i].setMat4("transform", this->transform);
 
         glDrawElements(GL_TRIANGLES, this->displays[i].get_indices_size(), GL_UNSIGNED_INT, 0);
         unbind();

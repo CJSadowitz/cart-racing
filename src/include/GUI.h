@@ -26,6 +26,8 @@ public:
     std::vector<Display> get_displays();
 
 private:
+    glm::mat4 transform;
+
     std::vector<Shader> button_shaders;
     std::vector<Shader> display_shaders;
 

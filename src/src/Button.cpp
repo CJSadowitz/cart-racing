@@ -129,17 +129,31 @@ void Button::generate_buffer(std::string file_path)
     // std::cout << std::endl;
 }
 
-void Button::set_button_rect_positions(glm::mat4 transform)
+void Button::set_button_rect_positions(glm::mat4& transform)
 {
-    // verterices array:
-    // v0.x v0.y v0.z t0.u t0.v v1.x v1.y v1.z t1.u t2.v
-    // v2.x v2.y v2.z t2.u t2.v v3.x v3.y v3.z t3.u t3.v
-    // Find two corner vertices (bottom left, bottom right) 
+    // Vertex Array:
+    // x1 y1 z1 t1u t1v, x2 y2 z2 t2u t2v, x3 y3 z3 t3u t3v, x4 y4 z4 t4u t4v,  
+    float x_min = std::min({this->vertices[0], this->vertices[5], this->vertices[10], this->vertices[15]});
+    float y_min = std::min({this->vertices[2], this->vertices[7], this->vertices[12], this->vertices[17]});
+
+    float x_max = std::max({this->vertices[0], this->vertices[5], this->vertices[10], this->vertices[15]});
+    float y_max = std::max({this->vertices[2], this->vertices[7], this->vertices[12], this->vertices[17]});
+
+    glm::vec4 b_left = transform * glm::vec4(x_min, 0.0f, y_min, 1.0f);
+    glm::vec4 t_right = transform * glm::vec4(x_max, 0.0f, y_max, 1.0f);
+
+    this->b_left.push_back(b_left.x);
+    this->b_left.push_back(b_left.y);
+    this->b_left.push_back(0.0f);
+
+    this->t_right.push_back(t_right.x);
+    this->t_right.push_back(t_right.y);
+    this->t_right.push_back(0.0f);
 }
 
 bool Button::clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state)
 {
-    
+    return false;
 }
 
 int Button::get_indices_size()
