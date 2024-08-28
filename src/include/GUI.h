@@ -20,12 +20,22 @@ public:
     void button_bind(int index);
     void unbind();
 
-    void render();
+    void render(GLFWwindow* window, mouse_pos mouse);
+
+    int get_button_pressed();
 
     std::vector<Button> get_buttons();
     std::vector<Display> get_displays();
 
 private:
+    std::vector<std::string> display_file_path;
+    std::vector<std::string> button_file_path;
+
+    std::vector<std::string> button_texture_paths;
+    std::vector<std::string> display_texture_paths;
+
+    int button_index;
+
     glm::mat4 transform;
 
     std::vector<Shader> button_shaders;
@@ -39,7 +49,8 @@ private:
     std::vector<GLuint> D_VBOs;
     std::vector<GLuint> D_EBOs;
 
-    std::vector<GLuint> textures;
+    std::vector<GLuint> button_textures;
+    std::vector<GLuint> display_textures;
 
     std::vector<Button> buttons;
     std::vector<Display> displays;

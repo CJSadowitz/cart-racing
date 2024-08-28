@@ -1,5 +1,10 @@
 #include "GUI_Util.h"
 
+/*
+Depricated for simply GUI/file readers
+*/
+
+
 // Pass in x,y coords for b_left and t_right
 rect_positions GUI_Util::set_rect_positions(float* b_left, float* t_right, float* color)
 {

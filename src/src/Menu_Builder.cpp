@@ -1,5 +1,9 @@
 #include "Menu_Builder.h"
 
+/*
+Depricated for GUI/file reader
+*/
+
 void Menu_Builder::main_menu_builder(Menu& menu, GUI_Util& gui_util, std::vector<size_t>& size)
 {
     // GUI creation

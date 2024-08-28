@@ -1,12 +1,10 @@
 #ifndef STATE_MACHINE_H
 #define STATE_MACHINE_H
 
-#include <string>
-#include "Menu.h"
-#include "Shader.h"
-#include "GUI_Util.h"
-#include "Input.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <string>
+#include "Input.h"
 #include <iostream>
 #include <vector>
 #include "Menu_Builder.h" 
@@ -40,12 +38,6 @@ private:
     std::vector<Gui> my_gui_obj;
 
     std::vector<size_t> size;
-
-    Menu menu_obj;
-    GUI_Util gui_obj;
-
-    Shader menu_shader;
-    Shader* current_shader; 
 };
 
 #endif

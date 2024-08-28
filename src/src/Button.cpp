@@ -151,8 +151,19 @@ void Button::set_button_rect_positions(glm::mat4& transform)
     this->t_right.push_back(0.0f);
 }
 
-bool Button::clicked(GLFWwindow* window, mouse_pos mouse, int current_state, int previous_state)
+bool Button::clicked(GLFWwindow* window, mouse_pos mouse)
 {
+    Input mouse_fix;
+    mouse_fix.update_mouse_pos(window, mouse);
+
+    mouse_pos screen_mouse = mouse_fix.get_mouse_pos();
+
+    bool x_bool = this->b_left[0] <= screen_mouse.x_pos && this->t_right[0] >= screen_mouse.x_pos;
+    bool y_bool = this->b_left[1] <= screen_mouse.y_pos && this->t_right[1] >= screen_mouse.y_pos;
+    if (x_bool && y_bool)
+    {
+        return true;
+    }
     return false;
 }
 
