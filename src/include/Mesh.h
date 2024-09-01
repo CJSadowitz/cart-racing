@@ -16,6 +16,8 @@ public:
     std::vector<int> get_indices_vector();
     std::vector<float> get_vertices_vector();
 
+    void debug_print();
+
 private:
     std::vector<float> vertices;
     std::vector<int> indices;

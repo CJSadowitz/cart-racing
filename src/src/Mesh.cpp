@@ -133,3 +133,8 @@ std::vector<int> Mesh::get_indices_vector()
 {
     return this->indices;
 }
+
+void Mesh::debug_print()
+{
+    std::cout << "Debug Print was called" << std::endl;
+}

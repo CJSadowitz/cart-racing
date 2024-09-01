@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Model.h"
+#include "Light.h"
 #include "Camera.h"
 
 class Scene
@@ -16,6 +17,7 @@ public:
 
 private:
     std::vector<Model> models;
+    std::vector<Light> lights;
 
 };
 

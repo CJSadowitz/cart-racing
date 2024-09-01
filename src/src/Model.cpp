@@ -123,7 +123,7 @@ void Model::generate_buffers()
     }
 }
 
-void Model::render(Camera camera)
+void Model::render(Camera& camera)
 {
     const unsigned int SCR_WIDTH = 800;
     const unsigned int SCR_HEIGHT = 600;    
@@ -140,6 +140,12 @@ void Model::render(Camera camera)
         // camera/view transformation
         glm::mat4 view = camera.GetViewMatrix();
         this->model_shaders[i].setMat4("view", view);
+
+        glm::mat4 model = glm::mat4(1.0f);
+        this->model_shaders[i].setMat4("model", model);
+
+        this->model_shaders[i].setVec3("viewPos", camera.Position);
+        this->model_shaders[i].setVec3("lightColor", 1.0f, 0.5f, 0.5f);
 
         bind(i);
         glDrawElements(GL_TRIANGLES, this->meshes[i].get_indices_size(), GL_UNSIGNED_INT, 0);

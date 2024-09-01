@@ -1,32 +1,29 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef LIGHT_H
+#define LIGHT_H
 
-#include <vector>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <string>
-#include <filesystem>   
-#include "Mesh.h"
+#include <vector>
 #include "Shader.h"
 #include "Camera.h"
+#include "Mesh.h"
 
-class Model
+class Light
 {
 public:
-    Model(std::string mesh_path);
-
+    Light(std::string file_path);
+    void generate_buffers();
     void render(Camera& camera);
 
-    void generate_buffers();
+    glm::vec3 get_position(int index);
 
-    std::vector<Shader> model_shaders;
 private:
     void bind(int index);
     void unbind();
 
-    std::vector<std::string> texture_paths;
-
     std::vector<Mesh> meshes;
+    std::vector<Shader> shaders;
     std::vector<GLuint> VAOs;
     std::vector<GLuint> VBOs;
     std::vector<GLuint> EBOs;

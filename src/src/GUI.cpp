@@ -85,7 +85,7 @@ Gui::Gui(std::string file_path)
     glm::mat4 transform = glm::mat4(1.0f);
     transform = glm::rotate(transform, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     transform = glm::scale(transform, glm::vec3(0.125, 0.125, 0.125));
-    // transform = glm::translate(transform, glm::vec3(0.0, -8.0, 0.0));
+    // transform = glm::translate(transform, glm::vec3(0.0, 0.0, 0.0));
     this->transform = transform;
 
     // Mouse collider box for menu selection

@@ -42,7 +42,7 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
     {
         this->first_call = false;
         this->previous_state = GLFW_RELEASE;
-        this->scene_obj.push_back(Scene("assets/scenes/title_scene/models"));
+        this->scene_obj.push_back(Scene("assets/scenes/title_scene"));
         this->camera_obj.push_back(Camera(glm::vec3(0.0f, 2.0f, 10.0f)));
         this->my_gui_obj.push_back(Gui("assets/hud/title_screen"));
     }
@@ -84,12 +84,17 @@ void State_Machine::settings_menu_state(GLFWwindow* window, mouse_pos mouse)
     {
         this->first_call = false;
         this->previous_state = GLFW_RELEASE;
+        this->scene_obj.push_back(Scene("assets/scenes/settings_scene"));
+        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 2.0f, 10.0f)));
     }
     // Renderer
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // scene and gui obj here
+    this->camera_obj[1].updateCameraPosition(12.0f, this->angle, glm::vec3(0.0f, 0.8f, 0.0f));
+    this->scene_obj[1].render(this->camera_obj[1]);
+    this->angle += 1;
 
     glfwSwapBuffers(window);
     
