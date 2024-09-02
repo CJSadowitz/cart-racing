@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 
-Mesh::Mesh(std::string file_path)
+Mesh::Mesh(const std::string& file_path)
 {
     std::ifstream file(file_path);
     std::string line;
@@ -109,7 +109,7 @@ Mesh::Mesh(std::string file_path)
     // std::cout << std::endl;
 }
 
-void Mesh::set_texture(std::string file_path)
+void Mesh::set_texture(const std::string& file_path)
 {
     this->texture_path == file_path;
 }
@@ -124,17 +124,12 @@ int Mesh::get_vertices_size()
     return this->vertices.size();
 }
 
-std::vector<float> Mesh::get_vertices_vector()
+const std::vector<float>& Mesh::get_vertices_vector()
 {
     return this->vertices;
 }
 
-std::vector<int> Mesh::get_indices_vector()
+const std::vector<int>& Mesh::get_indices_vector()
 {
     return this->indices;
-}
-
-void Mesh::debug_print()
-{
-    std::cout << "Debug Print was called" << std::endl;
 }

@@ -10,9 +10,9 @@
 class Scene
 {
 public:
-    Scene(std::string file_path);
+    Scene(const std::string& file_path);
 
-    void render(Camera camera);
+    void render(Camera& camera);
     std::vector<Model> get_models();
 
 private:

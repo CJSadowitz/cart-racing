@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <numeric>
 
-Light::Light(std::string file_path)
+Light::Light(const std::string& file_path)
 {
     int file_count = 0;
     for (const auto& entry: std::filesystem::directory_iterator(file_path + "/meshes"))
@@ -31,10 +31,8 @@ void Light::generate_buffers()
     {
         bind(i);
         glBufferData(GL_ARRAY_BUFFER, this->meshes[i].get_vertices_size() * 4, this->meshes[i].get_vertices_vector().data(), GL_DYNAMIC_DRAW);
-
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBOs[i]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->meshes[i].get_indices_size() * 4, this->meshes[i].get_indices_vector().data(), GL_DYNAMIC_DRAW);
-
         // vertex position
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
@@ -65,30 +63,23 @@ void Light::unbind()
 glm::vec3 Light::get_position(int index)
 {
     // // Find center of light cube:
-    // std::vector<float> x_pos;
-    // std::vector<float> y_pos;
-    // std::vector<float> z_pos;
+    std::vector<float> x_pos;
+    std::vector<float> y_pos;
+    std::vector<float> z_pos;
+    std::vector<float> vertices = this->meshes[0].get_vertices_vector();
 
-    // std::cout << "Do we make it here" << std::endl;
-    // this->meshes[index].debug_print();
-    // std::cout << "Why" << std::endl;
-    // std::vector<float> vertices = this->meshes[0].get_vertices_vector();
-    // std::cout << "Does this function even work?" << std::endl;
+    for (int i = 0; i < vertices.size(); i += 8)
+    {
+        x_pos.push_back(vertices[i]);
+        y_pos.push_back(vertices[i + 1]);
+        z_pos.push_back(vertices[i + 2]);
+    }
 
-    // for (int i = 0; i < vertices.size(); i += 8)
-    // {
-    //     x_pos.push_back(vertices[i]);
-    //     y_pos.push_back(vertices[i + 1]);
-    //     z_pos.push_back(vertices[i + 2]);
-    // }
-    // std::cout << "Victory Is ours" << std::endl;
+    float x_center = std::accumulate(x_pos.begin(), x_pos.end(), 0.0f) / x_pos.size();
+    float y_center = std::accumulate(y_pos.begin(), y_pos.end(), 0.0f) / y_pos.size();
+    float z_center = std::accumulate(z_pos.begin(), z_pos.end(), 0.0f) / z_pos.size();
 
-    // float x_center = std::accumulate(x_pos.begin(), x_pos.end(), 0.0f) / x_pos.size();
-    // float y_center = std::accumulate(y_pos.begin(), y_pos.end(), 0.0f) / y_pos.size();
-    // float z_center = std::accumulate(z_pos.begin(), z_pos.end(), 0.0f) / z_pos.size();
-
-    // return glm::vec3(x_center, y_center, z_center);
-    return glm::vec3(0.0f, 1.0f, 0.0f);
+    return glm::vec3(x_center, y_center, z_center);
 }
 
 

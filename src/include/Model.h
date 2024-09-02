@@ -13,7 +13,7 @@
 class Model
 {
 public:
-    Model(std::string mesh_path);
+    Model(const std::string& mesh_path);
 
     void render(Camera& camera);
 

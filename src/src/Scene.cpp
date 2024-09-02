@@ -1,7 +1,7 @@
 #include "Scene.h"
 
 // ex: assets/scenes/title_scene
-Scene::Scene(std::string file_path)
+Scene::Scene(const std::string& file_path)
 {
     for (const auto& entry: std::filesystem::directory_iterator(file_path + "/models"))
     {
@@ -31,12 +31,15 @@ Scene::Scene(std::string file_path)
     }
 }
 
-void Scene::render(Camera camera)
+void Scene::render(Camera& camera)
 {
     for (int i = 0; i < this->models.size(); i++)
     {
         this->models[i].model_shaders[0].use();
-        this->models[i].model_shaders[0].setVec3("lightPos", this->lights[0].get_position(0));
+        if (this->lights.size() != 0)
+        {
+            this->models[i].model_shaders[0].setVec3("lightPos", this->lights[0].get_position(0));
+        }
         this->models[i].render(camera);
     }
     for (int i = 0; i < this->lights.size(); i++)

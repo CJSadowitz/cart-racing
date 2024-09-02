@@ -3,7 +3,7 @@
 #include <stb_image.h>
 
 // ex: assets/scenes/title_scene/models/model_name
-Model::Model(std::string mesh_path)
+Model::Model(const std::string& mesh_path)
 {
     int file_count = 0;
     int texture_count = 0;
@@ -145,7 +145,7 @@ void Model::render(Camera& camera)
         this->model_shaders[i].setMat4("model", model);
 
         this->model_shaders[i].setVec3("viewPos", camera.Position);
-        this->model_shaders[i].setVec3("lightColor", 1.0f, 0.5f, 0.5f);
+        this->model_shaders[i].setVec3("lightColor", 1.0f, 1.0f, 1.0f);
 
         bind(i);
         glDrawElements(GL_TRIANGLES, this->meshes[i].get_indices_size(), GL_UNSIGNED_INT, 0);

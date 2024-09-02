@@ -12,7 +12,8 @@
 class Light
 {
 public:
-    Light(std::string file_path);
+    Light(const std::string& file_path);
+
     void generate_buffers();
     void render(Camera& camera);
 
@@ -27,9 +28,6 @@ private:
     std::vector<GLuint> VAOs;
     std::vector<GLuint> VBOs;
     std::vector<GLuint> EBOs;
-    std::vector<GLuint> textures;
-
-    size_t file_count;
 };
 
 #endif
