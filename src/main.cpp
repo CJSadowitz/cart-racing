@@ -40,7 +40,7 @@ int main()
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glEnable(GL_DEPTH_TEST);  
+    glEnable(GL_DEPTH_TEST);
     
     while (!glfwWindowShouldClose(window))
     {

@@ -7,10 +7,10 @@
 class Display
 {
 public:
-    Display(std::string file_path);
+    Display(const std::string& file_path);
 
-    std::vector<float> get_vertices_vector();
-    std::vector<int> get_indices_vector();
+    const std::vector<float>& get_vertices_vector();
+    const std::vector<int>& get_indices_vector();
 
     int get_indices_size();
     float get_vertices_size();

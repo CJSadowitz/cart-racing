@@ -1,7 +1,7 @@
 # Blender 4.2.1 LTS
 # www.blender.org
-mtllib play_button.mtl
-o Play
+mtllib audio_button.mtl
+o Audio
 v -1.721111 0.000044 -0.418854
 v 0.102242 0.000044 -0.418854
 v -1.721111 0.000019 -0.181595

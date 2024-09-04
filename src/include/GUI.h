@@ -12,7 +12,7 @@
 class Gui
 {
 public:
-    Gui(std::string file_path);
+    Gui(const std::string& file_path);
     void generate_buttons();
     void generate_displays();
 
@@ -24,8 +24,8 @@ public:
 
     int get_button_pressed();
 
-    std::vector<Button> get_buttons();
-    std::vector<Display> get_displays();
+    const std::vector<Button>& get_buttons();
+    const std::vector<Display>& get_displays();
 
 private:
     std::vector<std::string> display_file_path;

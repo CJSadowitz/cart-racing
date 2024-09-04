@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 
-Display::Display(std::string file_path)
+Display::Display(const std::string& file_path)
 {
     std::ifstream file(file_path);
     std::string line;
@@ -20,7 +20,7 @@ Display::Display(std::string file_path)
 
     if (!file.is_open())
     {
-        std::cout << "Display: Could_Not_Open_File" << std::endl;
+        std::cout << "Display: " << file_path << "Could_Not_Open_File" << std::endl;
         return;
     }
 
@@ -125,12 +125,12 @@ float Display::get_vertices_size()
     return this->vertices.size();
 }
 
-std::vector<int> Display::get_indices_vector()
+const std::vector<int>& Display::get_indices_vector()
 {
     return this->indices;
 }
 
-std::vector<float> Display::get_vertices_vector()
+const std::vector<float>& Display::get_vertices_vector()
 {
     return this->vertices;
 }

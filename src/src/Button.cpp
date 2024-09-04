@@ -6,7 +6,7 @@
 #include <algorithm>
 #include <filesystem> 
 
-Button::Button(std::string file_path)
+Button::Button(const std::string& file_path)
 {
     for (const auto& entry: std::filesystem::directory_iterator(file_path))
     {
@@ -19,7 +19,7 @@ Button::Button(std::string file_path)
     }
 }
 
-void Button::generate_buffer(std::string file_path)
+void Button::generate_buffer(const std::string& file_path)
 {
     std::ifstream file(file_path);
     std::string line;
@@ -34,7 +34,7 @@ void Button::generate_buffer(std::string file_path)
 
     if (!file.is_open())
     {
-        std::cout << "Button: Could_Not_Open_File" << std::endl;
+        std::cout << "Button: " << file_path << "Could_Not_Open_File" << std::endl;
         return;
     }
 
@@ -177,12 +177,12 @@ float Button::get_vertices_size()
     return this->vertices.size();
 }
 
-std::vector<int> Button::get_indices_vector()
+const std::vector<int>& Button::get_indices_vector()
 {
     return this->indices;
 }
 
-std::vector<float> Button::get_vertices_vector()
+const std::vector<float>& Button::get_vertices_vector()
 {
     return this->vertices;
 }

@@ -16,14 +16,14 @@
 class Button
 {
 public:
-    Button(std::string file_path);
+    Button(const std::string& file_path);
     bool clicked(GLFWwindow* window, mouse_pos mouse);
     void set_button_rect_positions(glm::mat4& transform);
 
-    void generate_buffer(std::string file_path);
+    void generate_buffer(const std::string& file_path);
 
-    std::vector<float> get_vertices_vector();
-    std::vector<int> get_indices_vector();
+    const std::vector<float>& get_vertices_vector();
+    const std::vector<int>& get_indices_vector();
 
     int get_indices_size();
     float get_vertices_size();
