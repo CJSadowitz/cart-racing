@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include "BVH.h"
 
 class Mesh
 {
@@ -16,7 +17,9 @@ public:
     const std::vector<int>& get_indices_vector();
     const std::vector<float>& get_vertices_vector();
 
+    std::vector<tri> triangles;
 private:
+
     std::vector<float> vertices;
     std::vector<int> indices;
 

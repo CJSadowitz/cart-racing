@@ -7,6 +7,7 @@ Model::Model(const std::string& mesh_path)
 {
     int file_count = 0;
     int texture_count = 0;
+    // for every obj file create a mesh object and add it to a vector
     for (const auto& entry: std::filesystem::directory_iterator(mesh_path + "/meshes"))
     {
         if (std::filesystem::is_regular_file(entry.status()))
@@ -40,7 +41,7 @@ Model::Model(const std::string& mesh_path)
     {
         std::cerr << "Model Error: " << e.what() << std::endl;
     }
-    this->VAOs.resize(file_count);
+    this->VAOs.resize(file_count); // THIS IS REQUIRED DO NOT DELETE IT RE-RE
     this->VBOs.resize(file_count);
     this->EBOs.resize(file_count);
     glGenVertexArrays(file_count, this->VAOs.data());
@@ -49,6 +50,15 @@ Model::Model(const std::string& mesh_path)
     this->model_shaders.push_back(Shader((mesh_path + "/shaders/vertex.vs").c_str(), (mesh_path + "/shaders/fragment.fs").c_str()));
 
     this->file_count = file_count;
+
+    generate_buffers();
+    // generate BVH for each mesh apart of this model
+    std::cout << "Before BVH" << std::endl;
+    for (int i = 0; i < this->meshes.size(); i++)
+    {
+        this->BVHs.push_back(BVH(this->meshes[i].triangles));
+    }
+    std::cout << "After All BVH creation" << std::endl;
 }
 
 void Model::bind(int index)
@@ -74,7 +84,6 @@ void Model::generate_buffers()
 
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBOs[i]);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->meshes[i].get_indices_size() * 4, this->meshes[i].get_indices_vector().data(), GL_DYNAMIC_DRAW);
-
         // vertex position
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
@@ -120,6 +129,7 @@ void Model::generate_buffers()
         glGenerateMipmap(GL_TEXTURE_2D);
         stbi_image_free(data);
         this->textures.push_back(texture1);
+        unbind();
     }
 }
 

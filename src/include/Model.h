@@ -9,6 +9,7 @@
 #include "Mesh.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "BVH.h"
 
 class Model
 {
@@ -20,6 +21,7 @@ public:
     void generate_buffers();
 
     std::vector<Shader> model_shaders;
+    std::vector<BVH> BVHs;
 private:
     void bind(int index);
     void unbind();

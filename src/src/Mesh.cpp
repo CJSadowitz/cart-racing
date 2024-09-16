@@ -97,16 +97,30 @@ Mesh::Mesh(const std::string& file_path)
         this->indices.push_back(i + 2);
         this->indices.push_back(i + 3);
     }
-    // std::cout << "\nVertices: " << std::endl;
-    // for (int i = 0; i < this->vertices.size(); i++)
-    // {
-    //     if (i != 0 && i % 8 == 0)
-    //     {
-    //         std::cout << std::endl;
-    //     }
-    //     std::cout << this->vertices[i] << ' ';
-    // }
-    // std::cout << std::endl;
+    std::cout << "\nVertices: " << std::endl;
+    for (int i = 0; i < this->vertices.size(); i++)
+    {
+        if (i != 0 && i % 8 == 0)
+        {
+            std::cout << std::endl;
+        }
+        std::cout << this->vertices[i] << ' ';
+    }
+    std::cout << std::endl;
+    for (int i = 0; i < this->vertices.size() / 3; i += 8)
+    {
+        tri new_tri;
+        new_tri.vertex0 = glm::vec3(this->vertices[i], this->vertices[i + 1], this->vertices[i + 2]);
+        new_tri.vertex1 = glm::vec3(this->vertices[i + 8], this->vertices[i + 9], this->vertices[i + 10]);
+        new_tri.vertex2 = glm::vec3(this->vertices[i + 16], this->vertices[i + 17], this->vertices[i + 18]);
+        // std::cout << "Vertices size: " << this->vertices.size() << " furthest read: " << i + 18 << std::endl;
+        // std::cout << "TRIANGLE VALUES ____________________________________" << std::endl;
+        // std::cout << "x: " << new_tri.vertex0.x << " y: " << new_tri.vertex0.y << " z: " << new_tri.vertex0.z << std::endl;
+        // std::cout << "x: " << new_tri.vertex1.x << " y: " << new_tri.vertex1.y << " z: " << new_tri.vertex1.z << std::endl;
+        // std::cout << "x: " << new_tri.vertex2.x << " y: " << new_tri.vertex2.y << " z: " << new_tri.vertex2.z << std::endl;
+        // std::cout << "TRIANGLE VALUES ____________________________________" << std::endl;
+        this->triangles.push_back(new_tri);
+    }
 }
 
 void Mesh::set_texture(const std::string& file_path)

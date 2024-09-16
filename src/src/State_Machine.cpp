@@ -24,11 +24,15 @@ void State_Machine::run_state(GLFWwindow* window, mouse_pos mouse)
     }
     else if (this->state == "display_settings")
     {
-        game_state(window, mouse);
+        display_settings(window, mouse);
     }
     else if (this->state == "audio_settings")
     {
-        game_state(window, mouse);
+        audio_settings(window, mouse);
+    }
+    else if (this->state == "control_settings")
+    {
+        controls_settings(window, mouse);
     }
 }
 
@@ -61,7 +65,6 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
         this->camera_obj.push_back(Camera(glm::vec3(0.0f, 4.0f, 0.0f)));
         this->my_gui_obj.push_back(Gui("assets/hud/title_screen"));
     }
-    
     // Renderer
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -88,6 +91,10 @@ void State_Machine::main_menu_state(GLFWwindow* window, mouse_pos mouse)
         {
             clear_objects();
             set_state("game_state");
+        }
+        else if (index == 2)
+        {
+            glfwSetWindowShouldClose(window, GLFW_TRUE);
         }
     }
     this->previous_state = current_state;
@@ -123,7 +130,8 @@ void State_Machine::settings_menu_state(GLFWwindow* window, mouse_pos mouse)
         if (index == 0)
         {
             // Audio
-            std::cout << index << " top buddy" << std::endl;
+            clear_objects();
+            set_state("audio_settings");
         }
         else if (index == 1)
         {
@@ -134,12 +142,14 @@ void State_Machine::settings_menu_state(GLFWwindow* window, mouse_pos mouse)
         else if (index == 2)
         {
             // Display
-            std::cout << index << std::endl;
+            clear_objects();
+            set_state("display_settings");
         }
         else if (index == 3)
         {
             // Controls
-            std::cout << index << std::endl;
+            clear_objects();
+            set_state("control_settings");
         }
     }
     this->previous_state = current_state;
@@ -155,6 +165,71 @@ void State_Machine::game_state(GLFWwindow* window, mouse_pos mouse)
         this->camera_obj.push_back(Camera(glm::vec3(0.0f, 4.0f, 0.0f)));
     }
 
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // scene and gui obj here
+    this->camera_obj[0].updateCameraPosition(19.0f, this->angle, glm::vec3(0.0f, -2.0f, 0.0f));
+    this->scene_obj[0].render(this->camera_obj[0]);
+    this->angle += 1;
+
+    glfwSwapBuffers(window);
+}
+
+void State_Machine::display_settings(GLFWwindow* window, mouse_pos mouse)
+{
+    if (this->first_call != false)
+    {
+        this->first_call = false;
+        this->previous_state = GLFW_RELEASE;
+        this->scene_obj.push_back(Scene("assets/scenes/settings_scene"));
+        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 4.0f, 0.0f)));
+        this->my_gui_obj.push_back(Gui("assets/hud/settings_screen"));
+        std::cout << "Display_Settings" << std::endl;
+    }
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // scene and gui obj here
+    this->camera_obj[0].updateCameraPosition(19.0f, this->angle, glm::vec3(0.0f, -2.0f, 0.0f));
+    this->scene_obj[0].render(this->camera_obj[0]);
+    this->angle += 1;
+
+    glfwSwapBuffers(window);
+}
+void State_Machine::audio_settings(GLFWwindow* window, mouse_pos mouse)
+{
+    if (this->first_call != false)
+    {
+        this->first_call = false;
+        this->previous_state = GLFW_RELEASE;
+        this->scene_obj.push_back(Scene("assets/scenes/settings_scene"));
+        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 4.0f, 0.0f)));
+        this->my_gui_obj.push_back(Gui("assets/hud/settings_screen"));
+        std::cout << "Audio_Settings" << std::endl;
+    }
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // scene and gui obj here
+    this->camera_obj[0].updateCameraPosition(19.0f, this->angle, glm::vec3(0.0f, -2.0f, 0.0f));
+    this->scene_obj[0].render(this->camera_obj[0]);
+    this->angle += 1;
+
+    glfwSwapBuffers(window);
+}
+void State_Machine::controls_settings(GLFWwindow* window, mouse_pos mouse)
+{
+    if (this->first_call != false)
+    {
+        this->first_call = false;
+        this->previous_state = GLFW_RELEASE;
+        this->scene_obj.push_back(Scene("assets/scenes/settings_scene"));
+        this->camera_obj.push_back(Camera(glm::vec3(0.0f, 4.0f, 0.0f)));
+        this->my_gui_obj.push_back(Gui("assets/hud/settings_screen"));
+        std::cout << "Controls_Settings" << std::endl;
+    }
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
