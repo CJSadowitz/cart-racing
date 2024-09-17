@@ -81,14 +81,14 @@ void BVH::build_bvh(std::vector<tri>& triangles, uint node_index, uint start, ui
             std::swap(triangles[i], triangles[j--]);
     }
     uint mid = (end - start) / 2 + start;
-    std::cout << "Count: " << count << " end: " << end << " start: " << start; 
-    std::cout << " middle index: " << mid <<std::endl; 
+    // std::cout << "Count: " << count << " end: " << end << " start: " << start; 
+    // std::cout << " middle index: " << mid <<std::endl; 
 
     // add node to vector and generate children
     this->node_list[node_index] = new_node;
     
-    build_bvh(triangles, this->node_list.size(), start, mid, count - 1);
-    build_bvh(triangles, this->node_list.size() + 1, mid, end, count - 1);
+    build_bvh(triangles, this->node_list.size() * 2 + 1, start, mid, count - 1);
+    build_bvh(triangles, this->node_list.size() * 2 + 2, mid, end, count - 1);
 }
 
 bool BVH::intersect(const BVH& other_tree)
