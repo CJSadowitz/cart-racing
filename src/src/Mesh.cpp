@@ -71,13 +71,16 @@ Mesh::Mesh(const std::string& file_path)
         }
     }
     std::vector<int> quad_indices;
-
+    std::vector<vertex> verts;
     for (int i = 0; i < indices.size(); i++)
     {
+        vertex new_vert;
         quad_indices.push_back(indices[i]);
         this->vertices.push_back(vertices[indices[i] * 3]);
         this->vertices.push_back(vertices[indices[i] * 3 + 1]);
         this->vertices.push_back(vertices[indices[i] * 3 + 2]);
+        new_vert.pos = glm::vec3(vertices[indices[i] * 3], vertices[indices[i] * 3 + 1], vertices[indices[i] * 3 + 2]);
+        verts.push_back(new_vert);
 
         this->vertices.push_back(normals[normalIndices[i] * 3]);
         this->vertices.push_back(normals[normalIndices[i] * 3 + 1]);
@@ -89,38 +92,52 @@ Mesh::Mesh(const std::string& file_path)
 
     for (int i = 0; i < quad_indices.size(); i += 4)
     {
+        tri first_tri;
         this->indices.push_back(i + 0);
         this->indices.push_back(i + 1);
         this->indices.push_back(i + 2);
 
+        first_tri.vertex0 = verts[i + 0];
+        first_tri.vertex1 = verts[i + 1];
+        first_tri.vertex2 = verts[i + 2];
+        this->triangles.push_back(first_tri);
+
+        tri second_tri;
         this->indices.push_back(i + 0);
         this->indices.push_back(i + 2);
         this->indices.push_back(i + 3);
+
+        second_tri.vertex0 = verts[i + 0];
+        second_tri.vertex1 = verts[i + 2];
+        second_tri.vertex2 = verts[i + 3];
+        this->triangles.push_back(second_tri);
     }
-    std::cout << "\nVertices: " << std::endl;
-    for (int i = 0; i < this->vertices.size(); i++)
-    {
-        if (i != 0 && i % 8 == 0)
-        {
-            std::cout << std::endl;
-        }
-        std::cout << this->vertices[i] << ' ';
-    }
-    std::cout << std::endl;
-    for (int i = 0; i < this->vertices.size() / 3; i += 8)
-    {
-        tri new_tri;
-        new_tri.vertex0 = glm::vec3(this->vertices[i], this->vertices[i + 1], this->vertices[i + 2]);
-        new_tri.vertex1 = glm::vec3(this->vertices[i + 8], this->vertices[i + 9], this->vertices[i + 10]);
-        new_tri.vertex2 = glm::vec3(this->vertices[i + 16], this->vertices[i + 17], this->vertices[i + 18]);
-        // std::cout << "Vertices size: " << this->vertices.size() << " furthest read: " << i + 18 << std::endl;
-        // std::cout << "TRIANGLE VALUES ____________________________________" << std::endl;
-        // std::cout << "x: " << new_tri.vertex0.x << " y: " << new_tri.vertex0.y << " z: " << new_tri.vertex0.z << std::endl;
-        // std::cout << "x: " << new_tri.vertex1.x << " y: " << new_tri.vertex1.y << " z: " << new_tri.vertex1.z << std::endl;
-        // std::cout << "x: " << new_tri.vertex2.x << " y: " << new_tri.vertex2.y << " z: " << new_tri.vertex2.z << std::endl;
-        // std::cout << "TRIANGLE VALUES ____________________________________" << std::endl;
-        this->triangles.push_back(new_tri);
-    }
+    // std::cout << "\nVertices: " << std::endl;
+    // for (int i = 0; i < this->vertices.size(); i++)
+    // {
+    //     if (i != 0 && i % 8 == 0)
+    //     {
+    //         std::cout << std::endl;
+    //     }
+    //     std::cout << this->vertices[i] << ' ';
+    // }
+    // std::cout << std::endl;
+
+    // for (int i = 0; i < this->vertices.size() / 3; i += 8)
+    // {
+    //     tri new_tri;
+    //     new_tri.vertex0 = glm::vec3(this->vertices[i], this->vertices[i + 1], this->vertices[i + 2]);
+    //     new_tri.vertex1 = glm::vec3(this->vertices[i + 8], this->vertices[i + 9], this->vertices[i + 10]);
+    //     new_tri.vertex2 = glm::vec3(this->vertices[i + 16], this->vertices[i + 17], this->vertices[i + 18]);
+    //     // // std::cout << "Vertices size: " << this->vertices.size() << " furthest read: " << i + 18 << std::endl;
+    //     // // std::cout << "TRIANGLE VALUES ____________________________________" << std::endl;
+    //     // // std::cout << "x: " << new_tri.vertex0.x << " y: " << new_tri.vertex0.y << " z: " << new_tri.vertex0.z << std::endl;
+    //     // // std::cout << "x: " << new_tri.vertex1.x << " y: " << new_tri.vertex1.y << " z: " << new_tri.vertex1.z << std::endl;
+    //     // // std::cout << "x: " << new_tri.vertex2.x << " y: " << new_tri.vertex2.y << " z: " << new_tri.vertex2.z << std::endl;
+    //     // // std::cout << "TRIANGLE VALUES ____________________________________" << std::endl;
+    //     this->triangles.push_back(new_tri);
+    // }
+    // I need to generate 12 triangles from 8 vertices given an array of 24 float values. Describing xyz
 }
 
 void Mesh::set_texture(const std::string& file_path)

@@ -8,19 +8,24 @@
 #include "Shader.h"
 #include "Camera.h"
 
+struct vertex
+{
+    glm::vec3 pos;
+};
+
 struct tri
 {
-    glm::vec3 vertex0;
-    glm::vec3 vertex1;
-    glm::vec3 vertex2;
+    vertex vertex0;
+    vertex vertex1;
+    vertex vertex2;
 
-    glm::vec3 centroid;
+    vertex centroid;
 };
 
 struct bvh_node // should be 32 bytes (i dunno about glm::vec3 though)
 {
-    glm::vec3 aabb_min;
-    glm::vec3 aabb_max;
+    vertex aabb_min;
+    vertex aabb_max;
 
     uint left_first; // if triangle_count is zero it contains the index of the left child node
     uint triangle_count;

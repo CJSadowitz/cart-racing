@@ -5,8 +5,8 @@
 
 BVH::BVH(std::vector<tri>& triangles)
 {
-    std::cout << "BVH constructor" << std::endl;
-    build_bvh(triangles, 0, 0, triangles.size(), 30);
+    std::cout << "BVH constructor: " << triangles.size() <<std::endl;
+    build_bvh(triangles, 0, 0, triangles.size(), 20);
 
     // debug rendering code
     this->VAOs.resize(this->node_list.size());
@@ -29,51 +29,66 @@ BVH::BVH(std::vector<tri>& triangles)
 
 void BVH::build_bvh(std::vector<tri>& triangles, uint node_index, uint start, uint end, int count)
 {
-    std::cout << "Count: " << count << " end: " << end << " start: " << start << std::endl; 
-    if (count == 0 || end - start <= 3)
+    if (node_index >= this->node_list.size())
     {
-        return;
+        this->node_list.resize(node_index + 1);
     }
     this->node_list.resize(this->node_list.size() + 1);
     bvh_node new_node = this->node_list[node_index];
+    // std::cout << "Node_index: " << node_index << "list size: " << this->node_list.size() << std::endl;
     // compute the axis aligned bounding box (AABB)
     glm::vec3 aabb_min = glm::vec3(std::numeric_limits<float>::max());
     glm::vec3 aabb_max = glm::vec3(std::numeric_limits<float>::lowest());
 
-    new_node.triangle_count = end - start;
-    for (const tri& t: triangles)
+    for (int i = start; i < end; i++)
     {
-        aabb_min = glm::min(aabb_min, glm::min(t.vertex0, glm::min(t.vertex1, t.vertex2)));
-        aabb_max = glm::max(aabb_max, glm::max(t.vertex0, glm::max(t.vertex1, t.vertex2)));
+        aabb_min = glm::min(aabb_min, glm::min(triangles[i].vertex0.pos, glm::min(triangles[i].vertex1.pos, triangles[i].vertex2.pos)));
+        aabb_max = glm::max(aabb_max, glm::max(triangles[i].vertex0.pos, glm::max(triangles[i].vertex1.pos, triangles[i].vertex2.pos)));
+        triangles[i].centroid.pos = (triangles[i].vertex0.pos + triangles[i].vertex1.pos + triangles[i].vertex2.pos) / 3.0f;
     }
-    new_node.aabb_min = aabb_min;
-    new_node.aabb_max = aabb_max;
+
+    // for (tri& t: triangles)
+    // {
+    //     aabb_min = glm::min(aabb_min, glm::min(t.vertex0.pos, glm::min(t.vertex1.pos, t.vertex2.pos)));
+    //     aabb_max = glm::max(aabb_max, glm::max(t.vertex0.pos, glm::max(t.vertex1.pos, t.vertex2.pos)));
+    //     t.centroid.pos = (t.vertex0.pos + t.vertex1.pos + t.vertex2.pos) / 3.0f;
+    // }
+    new_node.aabb_min.pos = aabb_min;
+    new_node.aabb_max.pos = aabb_max;
+    if (count <= 0 || end - start <= 3)
+    {
+        std::cout << "Leaf node" << std::endl;
+        new_node.triangle_count = end - start;
+        return;
+    }
 
     // split and sort triangles
-    glm::vec3 extent = new_node.aabb_max - new_node.aabb_min;
+    glm::vec3 extent = new_node.aabb_max.pos - new_node.aabb_min.pos;
     int axis = 0;
     if (extent.y > extent.x) axis = 1;
     if (extent.z > extent[axis]) axis = 2;
-    float splitPos = new_node.aabb_min[axis] + extent[axis] * 0.5f;
+    float splitPos = new_node.aabb_min.pos[axis] + extent[axis] * 0.5f;
 
+    new_node.left_first = start;
+    new_node.triangle_count = end - start;
     int i = new_node.left_first;
     int j = i + new_node.triangle_count - 1;
     while (i <= j)
     {
-        if (triangles[i].centroid[axis] < splitPos)
+        if (triangles[i].centroid.pos[axis] < splitPos)
             i++;
         else
             std::swap(triangles[i], triangles[j--]);
     }
-    uint mid = i;
-
+    uint mid = (end - start) / 2 + start;
+    std::cout << "Count: " << count << " end: " << end << " start: " << start; 
+    std::cout << " middle index: " << mid <<std::endl; 
 
     // add node to vector and generate children
-    this->node_list.push_back(new_node);
-    if (start < mid) // Ensure there are elements to process
-        build_bvh(triangles, this->node_list.size(), start, mid, count -= 1);
-    if (mid < end) // Ensure there are elements to process
-        build_bvh(triangles, this->node_list.size(), mid, end, count -= 1);
+    this->node_list[node_index] = new_node;
+    
+    build_bvh(triangles, this->node_list.size(), start, mid, count - 1);
+    build_bvh(triangles, this->node_list.size() + 1, mid, end, count - 1);
 }
 
 bool BVH::intersect(const BVH& other_tree)
@@ -144,8 +159,8 @@ void BVH::generate_vertex_data(int index)
     this->vertices.push_back(std::vector<float>());
     this->indices.push_back(std::vector<int>());
     
-    glm::vec3 aabb_min = this->node_list[index].aabb_min;
-    glm::vec3 aabb_max = this->node_list[index].aabb_max;
+    glm::vec3 aabb_min = this->node_list[index].aabb_min.pos;
+    glm::vec3 aabb_max = this->node_list[index].aabb_max.pos;
 
     // origin
     this->vertices[index].push_back(aabb_min.x);
