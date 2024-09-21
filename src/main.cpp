@@ -44,8 +44,10 @@ int main()
     glfwSetCursorPosCallback(window, cursor_position_callback);
 
     // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    glEnable(GL_DEPTH_TEST);
-    
+    glEnable(GL_DEPTH_TEST); // culling
+    // glEnable(GL_BLEND); // enable alpha this is expensive
+    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     while (!glfwWindowShouldClose(window))
     {
         my_machine.run_state(window, mouse);

@@ -27,7 +27,7 @@ struct bvh_node // should be 32 bytes (i dunno about glm::vec3 though)
     vertex aabb_min;
     vertex aabb_max;
 
-    uint left_first; // if triangle_count is zero it contains the index of the left child node
+    uint first_prim; // if triangle_count is zero it contains the index of the left child node
     uint triangle_count;
 };
 
@@ -45,8 +45,13 @@ public:
     void generate_vertex_data(int index);
     void render_aabb(Camera& camera);
 
+    void print_node_values();
+
 private:
+    float distance(glm::vec3 point1, float point2);
     void build_bvh(std::vector<tri>& triangles, uint node_index, uint start, uint end, int count);
+    glm::vec3 get_aabb_max(std::vector<tri>& triangles, uint start, uint end);
+    glm::vec3 get_aabb_min(std::vector<tri>& triangles, uint start, uint end);
 
     std::vector<bvh_node> node_list; // should be an array
     

@@ -47,6 +47,7 @@ void Scene::render(Camera& camera)
         for (int j = 0; j < this->models[i].BVHs.size(); j++)
         {
             this->models[i].BVHs[j].render_aabb(camera);
+            this->models[i].BVHs[j].print_node_values();
         }
     }
 }
